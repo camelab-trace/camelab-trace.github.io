@@ -73,19 +73,19 @@ layout: default
 				affiliation: $('input#affiliation').val()
 			}
 
-			if (name.length.length == 0) {
+			if (data.name.length == 0) {
 				showError('Please input your name.')
 
 				return
 			}
 
-			if (name.email.length == 0) {
+			if (data.email.length == 0) {
 				showError('Please input your email address.')
 
 				return
 			}
 
-			if (name.affiliation.length == 0) {
+			if (data.affiliation.length == 0) {
 				showError('Please input your affiliation.')
 
 				return
