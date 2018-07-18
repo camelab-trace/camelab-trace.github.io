@@ -14,7 +14,6 @@ layout: default
 					</span>
 				</header>
 				<select class="selectpicker" multiple>
-					<option>TEST</options>
 				</select>
 			</section>
 		</div>
@@ -37,8 +36,23 @@ layout: default
 		}
 
 		$(document).ready(function () {
-			RESTManager('/', 'GET', {}, function(status, response) {
-				console.log(response)
+			// Get Category List first
+			RESTManager('/category', 'GET', {}, function(status, response) {
+				// Create dropdown category list
+				if (response.error == 0) {
+					response.data.forEach(function(item) {
+						$('select.selectpicker').append('<optgroup data-id="' + item.id + '" label="' + item.name + '"></optgroup>')
+					})
+
+					// Get File List next
+					RESTManager('/', 'GET', {}, function(status, response) {
+						if (response.error == 0) {
+							response.data.forEach(function(item) {
+								$('select.selectpicker optgroup[data-id="' + item.category + '"]').append('<option data-id="' + item.id + '">' + item.name + '</option>')
+							})
+						}
+					})
+				}
 			})
 		})
 	</script>
