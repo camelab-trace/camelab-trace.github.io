@@ -39,7 +39,9 @@ layout: default
 								<button id="submit" type="button" class="btn btn-primary pull-right form-control">Submit</button>
 							</div>
 						</form>
-						<div class="alert alert-danger fade in" style="display: none;">
+						<div class="alert alert-danger fade in" style="display: none; margin-top: 4.5em;">
+							<a href="#" class="close" data-dismiss="alert">&times;</a>
+							<span id="content"></span>
 						</div>
 					</div>
 				</div>
@@ -64,8 +66,8 @@ layout: default
 		}
 
 		function showError(content) {
-			$('div.alert').html(content)
-			$('div.alert').show()
+			$('div.alert span').html(content)
+			$('div.alert span').show()
 		}
 
 		$('button#submit').click(function() {
