@@ -35,7 +35,7 @@ layout: default
 								<label for="affiliation">Affiliation</label>
 								<input type="text" class="form-control" id="affiliation" placeholder="Your affiliation here.">
 							</div>
-							<button type="button" class="btn btn-primary pull-right">Submit</button>
+							<button id="submit" type="button" class="btn btn-primary pull-right">Submit</button>
 						</form>
 					</div>
 				</div>
@@ -58,6 +58,19 @@ layout: default
 				}
 			})
 		}
+
+		$('button#submit').click(function() {
+			var data = {
+				name: $('input#name').val(),
+				email: $('input#email').val(),
+				affiliation: $('input#affiliation').val()
+			}
+
+			var selected = $('select.selectpicker').find('option:selected').data('id')
+
+			console.log(data)
+			console.log(selected)
+		})
 
 		$(document).ready(function () {
 			// Get Category List first
