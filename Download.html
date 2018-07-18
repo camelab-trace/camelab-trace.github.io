@@ -50,6 +50,9 @@ layout: default
 							response.data.forEach(function(item) {
 								$('select.selectpicker optgroup[data-id="' + item.category + '"]').append('<option data-id="' + item.id + '">' + item.name + '</option>')
 							})
+
+							// Redraw dropdown
+							$('select.selectpicker').selectpicker('render')
 						}
 					})
 				}
