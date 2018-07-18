@@ -37,6 +37,8 @@ layout: default
 							</div>
 							<button id="submit" type="button" class="btn btn-primary pull-right">Submit</button>
 						</form>
+						<div class="alert alert-danger fade in" style="display: none;">
+						</div>
 					</div>
 				</div>
 			</section>
@@ -59,6 +61,11 @@ layout: default
 			})
 		}
 
+		function showError(content) {
+			$('div.alert').html(content)
+			$('div.alert').show()
+		}
+
 		$('button#submit').click(function() {
 			var data = {
 				name: $('input#name').val(),
@@ -66,7 +73,31 @@ layout: default
 				affiliation: $('input#affiliation').val()
 			}
 
-			var selected = $('select.selectpicker').find('option:selected').data('id')
+			if (name.length.length == 0) {
+				showError('Please input your name.')
+
+				return
+			}
+
+			if (name.email.length == 0) {
+				showError('Please input your email address.')
+
+				return
+			}
+
+			if (name.affiliation.length == 0) {
+				showError('Please input your affiliation.')
+
+				return
+			}
+
+			var selected = $('select.selectpicker').find('option:selected').map(function() { return $(this).data('id') }).get()
+
+			if (selected.length == 0) {
+				showError('Please select files to download.')
+
+				return
+			}
 
 			console.log(data)
 			console.log(selected)
@@ -92,6 +123,10 @@ layout: default
 							$('select.selectpicker').selectpicker('refresh')
 						}
 					})
+				}
+
+				if (status != 200) {
+					showError('Failed to retrive trace file list. Please check network connection.')
 				}
 			})
 		})
