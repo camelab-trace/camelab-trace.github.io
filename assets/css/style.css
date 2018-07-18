@@ -111,6 +111,12 @@
     border: 1px solid black;
   }
 
+  th, td
+  {
+    padding: 15px;
+    text-align: center;
+  }
+
 	header
 	{
 		margin-bottom: 1.6em;
