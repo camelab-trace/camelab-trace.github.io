@@ -72,6 +72,10 @@ layout: default
 			$('div.alert').show()
 		}
 
+		function hideError() {
+			$('div.alert').hide()
+		}
+
 		$('button#submit').click(function() {
 			var data = {
 				name: $('input#name').val(),
@@ -105,8 +109,12 @@ layout: default
 				return
 			}
 
+			// Client-side validation passed
+			hideError()
+
+			data.id = selected
+
 			console.log(data)
-			console.log(selected)
 		})
 
 		$(document).ready(function () {
