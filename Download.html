@@ -90,7 +90,7 @@ layout: default
 		$('button#submit').click(function() {
 			var data = {
 				name: $('input#name').val(),
-				email: $('input#email').val(),
+				mail: $('input#email').val(),
 				affiliation: $('input#affiliation').val(),
 				id: $('select.selectpicker').find('option:selected').map(function() { return $(this).data('id') }).get()
 			}
@@ -101,7 +101,7 @@ layout: default
 				return
 			}
 
-			if (data.email.length == 0) {
+			if (data.mail.length == 0) {
 				showError('Please input your email address.')
 
 				return
