@@ -20,8 +20,26 @@ layout: default
 		</div>
 	</div>
 	<script type="text/javascript">
+		function RESTManager(url, method, data, callback) {
+			$.ajax({
+				type: 'POST',
+				url: 'http://trace.yonsei.ac.kr/app' + url,
+				headers: {
+					'X-HTTP-Method-Override': method
+				},
+				contentType: 'application/json',
+				dataType: 'json',
+				data: data,
+				complete: function (result) {
+					callback(result.status, result.responseJSON)
+				}
+			})
+		}
+
 		$(document).ready(function () {
-			alert('ready')
+			RESTManager('/', 'GET', {}, function(status, response) {
+				console.log(response)
+			})
 		})
 	</script>
 <!-- /Main -->
