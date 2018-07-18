@@ -13,8 +13,28 @@ layout: default
 						The download link will be send to email address submitted.
 					</span>
 				</header>
+				<h4>Select trace files to download</h4>
 				<select class="selectpicker" width="auto" multiple>
 				</select>
+				<h4>Fill your information here</h4>
+				<form>
+					<div class="form-group">
+						<label for="name">Name</label>
+						<input type="text" class="form-control" id="name" placeholder="Your name here.">
+					</div>
+					<div class="form-group">
+						<label for="email">Email address</label>
+						<input type="email" class="form-control" id="email" placeholder="Your email here.">
+						<small id="email_help" class="form-text text-muted">
+							We'll never share your email with anyone else, only used for sending download link to you.
+						</small>
+					</div>
+					<div class="form-group">
+						<label for="affiliation">Affiliation</label>
+						<input type="text" class="form-control" id="affiliation" placeholder="Your affiliation here.">
+					</div>
+					<button type="button" class="btn btn-primary">Submit</button>
+				</form>
 			</section>
 		</div>
 	</div>
