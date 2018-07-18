@@ -80,7 +80,8 @@ layout: default
 			var data = {
 				name: $('input#name').val(),
 				email: $('input#email').val(),
-				affiliation: $('input#affiliation').val()
+				affiliation: $('input#affiliation').val(),
+				id: $('select.selectpicker').find('option:selected').map(function() { return $(this).data('id') }).get()
 			}
 
 			if (data.name.length == 0) {
@@ -101,9 +102,7 @@ layout: default
 				return
 			}
 
-			var selected = $('select.selectpicker').find('option:selected').map(function() { return $(this).data('id') }).get()
-
-			if (selected.length == 0) {
+			if (data.id.length == 0) {
 				showError('Please select files to download.')
 
 				return
@@ -112,9 +111,28 @@ layout: default
 			// Client-side validation passed
 			hideError()
 
-			data.id = selected
+			// Submit
+			RESTManager('/download', 'POST', data, function(status, response) {
+				if (status != 200) {
+					showError('Failed to get response from server. Please check network connection.')
+				}
 
-			console.log(data)
+				if (response.error == 0) {
+					window.location.replace('./Download_done.html')
+				}
+				else if (response.error == 12) {
+					showError('Failed to send email. Please check your email address.')
+				}
+				else {
+					showError('Server-side input validation failed. Please check your form input.')
+				}
+
+				$('div.form-group button.btn').prop('disabled', false)
+				$('div.form-group button.btn').text('Submit')
+			})
+
+			$(this).prop('disabled', true)
+			$(this).text('Waiting for response...')
 		})
 
 		$(document).ready(function () {
