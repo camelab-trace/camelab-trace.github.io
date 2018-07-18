@@ -23,7 +23,7 @@ layout: default
 		function RESTManager(url, method, data, callback) {
 			$.ajax({
 				type: 'POST',
-				url: 'http://trace.yonsei.ac.kr/app' + url,
+				url: 'http://trace.yonsei.ac.kr/app/trace' + url,
 				headers: {
 					'X-HTTP-Method-Override': method
 				},
