@@ -919,6 +919,7 @@
 	{
 		position: relative;
 		text-align: center;
+		background: #f2f2f2;
 	}
 
 	#footer header h2
@@ -940,6 +941,7 @@
 		position: relative;
 		text-align: center;
 		color: #774535;
+		background: #f2f2f2;
 	}
 
 	#copyright .container
