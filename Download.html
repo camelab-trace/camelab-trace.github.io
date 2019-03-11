@@ -9,170 +9,67 @@ layout: default
 				<header>
 					<h2>Download</h2>
 					<span class="byline">
-            Please select trace files what you would like to download in below.
-            For download, we require your email address which will never be shared with anyone,
-            just for sending the download link to the email address.
+            Please download trace files from the link below.
 					</span>
 				</header>
 				<div class="row">
 					<div class="col-md-6 col-md-offset-3">
-						<h4>Select trace files to download</h4>
-						<select class="selectpicker" data-width="100%" multiple>
-						</select>
-						<h4 style="margin-top: 2em;">Fill your information here</h4>
-						<form>
-							<div class="form-group">
-								<label for="name">Name</label>
-								<input type="text" class="form-control" id="name" placeholder="Your name here.">
-							</div>
-							<div class="form-group">
-								<label for="email">Email address</label>
-								<input type="email" class="form-control" id="email" placeholder="Your email here.">
-								<small id="email_help" class="form-text text-muted">
-								  Please enter your 'correct' email address. Download link will be sent to submitted email address.	
-								</small>
-							</div>
-							<div class="form-group">
-								<label for="affiliation">Affiliation</label>
-								<input type="text" class="form-control" id="affiliation" placeholder="Your affiliation here.">
-							</div>
-							<div class="form-group">
-								<button id="submit" type="button" class="btn btn-primary pull-right form-control">Submit</button>
-							</div>
-						</form>
+						<div class="panel panel-default">
+							<div class="panel-heading">Flash-based Block Traces</div>
+							<table class="table-striped">
+								<thead>
+									<th>Filename</th>
+									<th>Description</th>
+								</thead>
+								<tbody>
+									<tr>
+										<td>Enterprise-trace.tar.gz</td>
+										<td>Microsoft Enterprise</td>
+									</tr>
+									<tr>
+										<td>FIU-trace.tar.gz</td>
+										<td>Florida International University (FIU)</td>
+									</tr>
+									<tr>
+										<td>MSRC-trace.tar.gz</td>
+										<td>Microsoft Research Cambridge (MSRC)</td>
+									</tr>
+									<tr>
+										<td>Production-trace.tar.gz</td>
+										<td>Microsoft Production Server (MSPS)</td>
+									<tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="panel panel-default">
+							<div class="panel-heading">>System Resilient Traces</div>
+							<table class="table-striped">
+								<thead>
+									<th>Filename</th>
+									<th>Description</th>
+								</thead>
+								<tbody>
+									<tr>
+										<td>ec_10_4.tar.gz</td>
+										<td>Reed Solomon (10,4)</td>
+									</tr>
+									<tr>
+										<td>ec_6_3.tar.gz</td>
+										<td>Reed Solomon (6,3)</td>
+									</tr>
+									<tr>
+										<td>rp_3.tar.gz</td>
+										<td>Triple Replication (3-replication)</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<a href="https://drive.google.com/drive/folders/1jzFB0-oNNkfHH44AUQUit6AGFjfZ6Tpq" class="btn btn-primary" role="button">
+							Download
+						</a>
 					</div>
 				</div>
 			</section>
 		</div>
 	</div>
-	<script type="text/javascript">
-		function RESTManager(url, method, data, callback) {
-			var jsondata = ''
-
-			try {
-				jsondata = JSON.stringify(data)
-			}
-			catch (e) {
-				console.log(e.stack)
-
-				return
-			}
-
-			$.ajax({
-				type: 'POST',
-				url: 'http://trace.camelab.org/app/trace' + url,
-				headers: {
-					'X-HTTP-Method-Override': method
-				},
-				contentType: 'application/json',
-				dataType: 'json',
-				data: jsondata,
-				complete: function (result) {
-					callback(result.status, result.responseJSON)
-				}
-			})
-		}
-
-		function showError(content) {
-			if ($('div.alert').length == 0) {
-				$('div.col-md-6').append('<div class="alert alert-danger fade in" style="display: none; margin-top: 4.5em;"></div>')
-				$('div.alert').append('<a href="#" class="close" data-dismiss="alert">&times;</a>')
-				$('div.alert').append('<span id="content"></span>')
-			}
-
-			$('div.alert span').html(content)
-			$('div.alert').show()
-		}
-
-		function hideError() {
-			$('div.alert').hide()
-		}
-
-		$('button#submit').click(function() {
-			var data = {
-				name: $('input#name').val(),
-				mail: $('input#email').val(),
-				affiliation: $('input#affiliation').val(),
-				id: $('select.selectpicker').find('option:selected').map(function() { return $(this).data('id') }).get()
-			}
-
-			if (data.name.length == 0) {
-				showError('Please input your name.')
-
-				return
-			}
-
-			if (data.mail.length == 0) {
-				showError('Please input your email address.')
-
-				return
-			}
-
-			if (data.affiliation.length == 0) {
-				showError('Please input your affiliation.')
-
-				return
-			}
-
-			if (data.id.length == 0) {
-				showError('Please select files to download.')
-
-				return
-			}
-
-			// Client-side validation passed
-			hideError()
-
-			// Submit
-			RESTManager('/download', 'POST', data, function(status, response) {
-				if (status != 200) {
-					showError('Failed to get response from server. Please check network connection.')
-				}
-
-				if (response.error == 0) {
-					window.location.replace('./Download_done.html')
-				}
-				else if (response.error == 12) {
-					showError('Failed to send email. Please check your email address.')
-				}
-				else {
-					showError('Server-side input validation failed. Please check your form input.')
-				}
-
-				$('div.form-group button.btn').prop('disabled', false)
-				$('div.form-group button.btn').text('Submit')
-			})
-
-			$(this).prop('disabled', true)
-			$(this).text('Waiting for response...')
-		})
-
-		$(document).ready(function () {
-			// Get Category List first
-			RESTManager('/category', 'GET', {}, function(status, response) {
-				// Create dropdown category list
-				if (response.error == 0) {
-					response.data.forEach(function(item) {
-						$('select.selectpicker').append('<optgroup data-id="' + item.id + '" label="' + item.name + '"></optgroup>')
-					})
-
-					// Get File List next
-					RESTManager('/', 'GET', {}, function(status, response) {
-						if (response.error == 0) {
-							response.data.forEach(function(item) {
-								$('select.selectpicker optgroup[data-id="' + item.category + '"]').append('<option data-id="' + item.id + '">' + item.name + '</option>')
-							})
-
-							// Redraw dropdown
-							$('select.selectpicker').selectpicker('refresh')
-						}
-					})
-				}
-
-				if (status != 200) {
-					showError('Failed to retrive trace file list. Please check network connection.')
-				}
-			})
-		})
-	</script>
 <!-- /Main -->
